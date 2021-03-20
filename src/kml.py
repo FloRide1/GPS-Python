@@ -8,6 +8,13 @@ def get_kml_data(coordinates):
     placemark_placeholder_lines = get_bracket_line("Placemark", 16) 
     placemark_name_line = get_name_line("Absolute Extruded", 24)
     placemark_desc_line = get_description_line(" ", 24)
+    placemark_style_line = get_unique_line("styleUrl", "#yellowLineGreenPoly", 24)
+    lineString_line = get_bracket_line("LineString", 24)
+    extrude_line = get_unique_line("extrude", 1, 32)
+    tessellate_line = get_unique_line("tessellate", 1, 32)
+    altitudeMode_line = get_unique_line("altitudeMode", "absolute", 32)
+    coordinates_placeholder_lines = get_bracket_line("coordinates", 32)
+
     
     kml_final_line = []
     kml_final_line.append(xml_line)
@@ -17,10 +24,24 @@ def get_kml_data(coordinates):
     kml_final_line.append(description_line)
     kml_final_line.append(style_line)
     
-
     kml_final_line.append(placemark_placeholder_lines['begin'])
+
     kml_final_line.append(placemark_name_line)
     kml_final_line.append(placemark_desc_line)
+    kml_final_line.append(placemark_style_line)
+    
+    kml_final_line.append(lineString_line['begin'])
+
+    kml_final_line.append(extrude_line)
+    kml_final_line.append(tessellate_line)
+    kml_final_line.append(altitudeMode_line)
+
+    kml_final_line.append(coordinates_placeholder_lines['begin'])
+    kml_final_line.append(coordinates_placeholder_lines['end'])
+
+    kml_final_line.append(lineString_line['end'])
+git reset 'HEAD@{1}'
+
     kml_final_line.append(placemark_placeholder_lines['end'])
 
     kml_final_line.append(kml_placeholder['end'])

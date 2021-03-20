@@ -24,9 +24,9 @@ def main():
         data = parse_file(file_data)
         if data == -1:
             raise TypeError("Parse fail")
-        print("[OK] Data is Correctly Parse")
+        print("[OK] Data is correctly parsed")
     except:
-        print("[ERROR] Data can't be Parse")
+        print("[ERROR] Data can't be parsed")
         return -1
     print(get_kml_data("1"))
 
