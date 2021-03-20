@@ -3,14 +3,16 @@ from converter import *
 from kml import * 
 
 DATA_PATH = "./data/"
-DATA_FILE = "data_example.txt"
-FILE_OUTPUT = "kml_output.kml"
+DATA_FILE = "balade_gps.txt"
+OUTPUT_PATH = "./output/"
+OUTPUT_FILE = "kml_output.kml"
 
 def init():
     print("[OK] Init Begin")
     print("[OK] File Path: " + DATA_PATH)
     print("[OK] File Name: " + DATA_FILE)
-    print("[OK] File Output: " + FILE_OUTPUT)
+    print("[OK] Output Path: " + OUTPUT_PATH)
+    print("[OK] Output File: " + OUTPUT_FILE)
     print("[OK] Init End")
 
 def main():
@@ -43,7 +45,6 @@ def main():
         print("[ERROR] Convertion in KML failed")
         return -1
     try:
-        print(kml_data)
         kml_file = get_kml_file_data(kml_data) 
         if kml_file == -1:
             raise TypeError("KML Can't be generate")
@@ -51,7 +52,12 @@ def main():
     except:
         print("[ERROR] The KML file data can't be generate") 
         return -1
-    print(kml_file)
+    try:
+        output_file = open(OUTPUT_PATH + OUTPUT_FILE, 'w')
+        output_file.write(kml_file)
+        print("[OK] Output File is done")
+    except:
+        print("[ERROR] Output File can't be generated")
 
     print("[OK] Main End")
 

@@ -36,15 +36,15 @@ def parse_GGA_frame(parse_data):
         if typeOfFrame == "GGA":
             frame_data = {
                 'type'          : parse_data[0][3:],
-                'time'          : int(parse_data[1]),
+                'time'          : float(parse_data[1]),
                 'latitude'      : float(parse_data[2]),
                 'north_south'   : parse_data[3],
                 'longitude'     : float(parse_data[4]),
                 'est_west'      : parse_data[5],
                 'quality'       : float(parse_data[6]),
-                'numb_of_sats'  : int(parse_data[7]),
+                'numb_of_sats'  : parse_data[7],
                 'HDOP'          : parse_data[8],
-                'altitude'      : int(parse_data[9]),
+                'altitude'      : float(parse_data[9]),
                 'units'         : parse_data[10]
             }
             return frame_data
@@ -52,6 +52,7 @@ def parse_GGA_frame(parse_data):
             print("[ERROR] This frame is not an GGA frame")
             return -1
     except:
-        print("[ERROR] This GGA frame is not correctly formated")
+        print("[ERROR] This GGA frame is not correctly formated: ")
+        print(parse_data)
         return -1
     
