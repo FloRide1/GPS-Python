@@ -22,11 +22,22 @@ def convert_GGA_to_KML(gga_frame):
 
             longitude_GGA = str(gga_frame['longitude'])
             latitude_GGA  = str(gga_frame['latitude'])
-            coeff_latitude = (1,-1) [gga_frame['north_south'] == "N"]
-            coeff_longitude = (1,-1) [gga_frame['est_west']    == "E"]
 
-            longitude = (int(longitude_GGA[0:2]) + float(longitude_GGA[2:]) / 60) * coeff_longitude
-            latitude  = (int(latitude_GGA[0:2]) + float(latitude_GGA[2:])  / 60) * coeff_latitude
+            coeff_latitude = (-1,1) [gga_frame['north_south'] == "N"]
+            coeff_longitude = (-1,1) [gga_frame['est_west']    == "E"]
+
+            longitude_split = longitude_GGA.split(".")
+            latitude_split  = latitude_GGA.split(".")
+
+            longitude_degree = int(longitude_split[0][:-2])
+            latitude_degree = int(latitude_split[0][:-2])
+
+            longitude_minute = float(longitude_split[0][-2:] + "." + longitude_split[1])
+            latitude_minute = float(latitude_split[0][-2:] + "." + latitude_split[1])
+
+            longitude = (longitude_degree + longitude_minute / 60) * coeff_longitude
+            latitude  = (latitude_degree + latitude_minute  / 60) * coeff_latitude
+
             kml_frame = {
                 'longitude' : longitude,
                 'latitude'  : latitude,
