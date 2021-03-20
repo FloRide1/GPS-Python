@@ -1,3 +1,4 @@
+import colorsys
 
 def convert_frame_to_KML(frame):
     try:
@@ -7,6 +8,8 @@ def convert_frame_to_KML(frame):
                 return convert_GGA_to_KML(frame)
             else:
                 return -2
+        elif typeOfFrame == "VTG":
+            return convert_VTG_to_KML(frame)
         else:
             print("[ERROR] This frame format isn't handle: " + typeOfFrame)
             return -2
@@ -19,7 +22,6 @@ def convert_frame_to_KML(frame):
 def convert_GGA_to_KML(gga_frame):
     try:
         if (gga_frame['type'] == "GGA"):
-
             longitude_GGA = str(gga_frame['longitude'])
             latitude_GGA  = str(gga_frame['latitude'])
 
@@ -39,9 +41,10 @@ def convert_GGA_to_KML(gga_frame):
             latitude  = (latitude_degree + latitude_minute  / 60) * coeff_latitude
 
             kml_frame = {
+                'type'      : "GGA",
                 'longitude' : longitude,
                 'latitude'  : latitude,
-                'altitude'  : gga_frame['altitude']
+                'altitude'  : gga_frame['altitude'] + 15 # The + 15 is just for avoid hidden point in ground
             }
             return kml_frame
 
@@ -51,3 +54,37 @@ def convert_GGA_to_KML(gga_frame):
     except:
         print("[ERROR] The conversion betweem this GGA frame and KML is Impossible")
         return -1
+
+def convert_VTG_to_KML(vtg_frame):
+    try:
+        if (vtg_frame['type'] == "VTG"):
+            speed = vtg_frame['speed_km'] 
+            hue = speed_to_hue(speed)
+            color = convert_color_KML(hue)
+            return -2
+        else:
+            print("[ERROR] This is not an VTG frame")
+            return -1
+    except:
+        print("[ERROR] The conversion betweem this VTG frame and KML is Impossible")
+        return -1
+
+def speed_to_hue(speed, min_speed = 0, max_speed = 100, min_hue = 140, max_hue = 0):
+    # Conversion law [0km/h; 100km/h] -> [140;0] == [turquoise, red] (For HSV system)
+    slope = (max_hue - min_hue) / (max_speed - min_speed)
+    y_intercept = min_hue - (min_speed * slope) 
+    hue = (slope * speed) + y_intercept 
+    return hue
+
+def convert_color_KML (hue , sat = 100, value = 100):
+    hue /= 360
+    sat /= 100
+    value /= 100
+    red, green, blue = colorsys.hsv_to_rgb(hue, sat, value)    
+    red     = int(255 * red)
+    green   = int(255 * green)
+    blue    = int(255 * blue)
+    kml_color = "#{b:02X}{g:02X}{r:02X}".format(b=blue, g=green, r=red)
+    return kml_color 
+
+
