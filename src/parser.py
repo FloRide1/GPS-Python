@@ -42,7 +42,10 @@ def parse_GGA_frame(parse_data):
                 'longitude'     : float(parse_data[4]),
                 'est_west'      : parse_data[5],
                 'quality'       : float(parse_data[6]),
-                'altitude'      : int(parse_data[7])
+                'numb_of_sats'  : int(parse_data[7]),
+                'HDOP'          : parse_data[8],
+                'altitude'      : int(parse_data[9]),
+                'units'         : parse_data[10]
             }
             return frame_data
         else:

@@ -1,5 +1,5 @@
 
-def get_kml_data(coordinates):
+def get_kml_file_data(coordinates):
     try:
         xml_line = get_kml_xml_line()
         kml_placeholder = get_placeholder_kml() 
@@ -41,10 +41,10 @@ def get_kml_data(coordinates):
     
         try: 
             for coords in coordinates:
-                longitude = coords['longitude']
-                latitude  = coords['latitude']
-                altitude  = coords['altitude']
-                line = ",".join([longitude, altitude, altitude])
+                longitude = str(coords['longitude'])
+                latitude  = str(coords['latitude'])
+                altitude  = str(coords['altitude'])
+                line = 40 * " " + ",".join([longitude, latitude, altitude])
                 kml_final_line.append(line)
         except:
             print("[ERROR] The coordinates can't be added in the KML file")
@@ -61,7 +61,7 @@ def get_kml_data(coordinates):
         
         return kml_file
     except:
-        print("[ERROR] The KML file can't be generate")
+        print("[ERROR] The KML file is broken")
     
 
 def get_kml_xml_line(version = 1.0, encoding = "UTF-8"):

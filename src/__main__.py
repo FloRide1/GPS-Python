@@ -4,12 +4,13 @@ from kml import *
 
 DATA_PATH = "./data/"
 DATA_FILE = "data_example.txt"
-
+FILE_OUTPUT = "kml_output.kml"
 
 def init():
     print("[OK] Init Begin")
     print("[OK] File Path: " + DATA_PATH)
     print("[OK] File Name: " + DATA_FILE)
+    print("[OK] File Output: " + FILE_OUTPUT)
     print("[OK] Init End")
 
 def main():
@@ -41,7 +42,16 @@ def main():
     except:
         print("[ERROR] Convertion in KML failed")
         return -1
-    print(get_kml_data("1"))
+    try:
+        print(kml_data)
+        kml_file = get_kml_file_data(kml_data) 
+        if kml_file == -1:
+            raise TypeError("KML Can't be generate")
+        print("[OK] The KML file data is generate")
+    except:
+        print("[ERROR] The KML file data can't be generate") 
+        return -1
+    print(kml_file)
 
     print("[OK] Main End")
 
