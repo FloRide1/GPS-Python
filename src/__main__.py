@@ -1,4 +1,5 @@
 from parser import *
+from kml import * 
 
 DATA_PATH = "./data/"
 DATA_FILE = "data_example.txt"
@@ -27,6 +28,7 @@ def main():
     except:
         print("[ERROR] Data can't be Parse")
         return -1
+    print(get_kml_data("1"))
 
     print("[OK] Main End")
 
