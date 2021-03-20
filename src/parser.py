@@ -8,7 +8,8 @@ def parse_file(file_data):
             frame_data = parse_frame(data,i + 1)
             if frame_data == -1:
                 raise TypeError("Parse failed")
-            correct_data.append(frame_data)
+            elif frame_data != 0:
+                correct_data.append(frame_data)
         return correct_data
     except:
         print("[ERROR] Parsing File is impossible")
@@ -40,7 +41,8 @@ def parse_GGA_frame(parse_data):
                 'north_south'   : parse_data[3],
                 'longitude'     : float(parse_data[4]),
                 'est_west'      : parse_data[5],
-                'quality'       : float(parse_data[6])
+                'quality'       : float(parse_data[6]),
+                'altitude'      : int(parse_data[7])
             }
             return frame_data
         else:

@@ -1,4 +1,5 @@
 from parser import *
+from converter import *
 from kml import * 
 
 DATA_PATH = "./data/"
@@ -23,10 +24,22 @@ def main():
     try:
         data = parse_file(file_data)
         if data == -1:
-            raise TypeError("Parse fail")
+            raise TypeError("Parse failed")
         print("[OK] Data is correctly parsed")
     except:
         print("[ERROR] Data can't be parsed")
+        return -1
+    try:
+        kml_data = []
+        for d in data:
+            kml_d = convert_frame_to_KML(d)
+            if (kml_d == -1):
+                raise TypeError("Conversion failed")
+            elif kml_d != -2:
+                kml_data.append(kml_d) 
+        print("[OK] Conversion in KML Success")
+    except:
+        print("[ERROR] Convertion in KML failed")
         return -1
     print(get_kml_data("1"))
 
