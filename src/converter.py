@@ -61,7 +61,12 @@ def convert_VTG_to_KML(vtg_frame):
             speed = vtg_frame['speed_km'] 
             hue = speed_to_hue(speed)
             color = convert_color_KML(hue)
-            return -2
+            kml_frame = {
+                'type' : "VTG",
+                'speed': vtg_frame['speed_km'],
+                'color': color
+            }
+            return kml_frame
         else:
             print("[ERROR] This is not an VTG frame")
             return -1
@@ -84,7 +89,7 @@ def convert_color_KML (hue , sat = 100, value = 100):
     red     = int(255 * red)
     green   = int(255 * green)
     blue    = int(255 * blue)
-    kml_color = "#{b:02X}{g:02X}{r:02X}".format(b=blue, g=green, r=red)
+    kml_color = "ff{b:02x}{g:02x}{r:02x}".format(b=blue, g=green, r=red)
     return kml_color 
 
 
