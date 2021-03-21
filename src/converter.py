@@ -1,5 +1,7 @@
 import colorsys
 
+KNOT_TO_KM_H = 1.852001
+
 def convert_frame_to_KML(frame):
     try:
         typeOfFrame = frame['type']
@@ -10,6 +12,8 @@ def convert_frame_to_KML(frame):
                 return -2
         elif typeOfFrame == "VTG":
             return convert_VTG_to_KML(frame)
+        elif typeOfFrame == "RMC":
+            return convert_RMC_to_KML(frame)
         else:
             print("[ERROR] This frame format isn't handle: " + typeOfFrame)
             return -2
@@ -62,8 +66,8 @@ def convert_VTG_to_KML(vtg_frame):
             hue = speed_to_hue(speed)
             color = convert_color_KML(hue)
             kml_frame = {
-                'type' : "VTG",
-                'speed': vtg_frame['speed_km'],
+                'type' : "speed",
+                'speed': speed,
                 'color': color
             }
             return kml_frame
@@ -73,6 +77,26 @@ def convert_VTG_to_KML(vtg_frame):
     except:
         print("[ERROR] The conversion betweem this VTG frame and KML is Impossible")
         return -1
+
+def convert_RMC_to_KML(rmc_frame):
+    try:
+        if (rmc_frame['type'] == "RMC"):
+            speed = rmc_frame['speed_knot']  * KNOT_TO_KM_H
+            hue = speed_to_hue(speed)
+            color = convert_color_KML(hue)
+            kml_frame = {
+                'type' : "speed",
+                'speed': speed,
+                'color': color
+            }
+            return kml_frame
+        else:
+            print("[ERROR] This is not an RMC frame")
+            return -1
+    except:
+        print("[ERROR] The conversion betweem this RMC frame and KML is Impossible")
+        return -1
+
 
 def speed_to_hue(speed, min_speed = 0, max_speed = 100, min_hue = 140, max_hue = 0):
     # Conversion law [0km/h; 100km/h] -> [140;0] == [turquoise, red] (For HSV system)

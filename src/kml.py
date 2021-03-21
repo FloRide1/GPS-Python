@@ -42,12 +42,12 @@ def get_placemark_content(coordinates, thresold):
         last_line = -1
         inPlaceHolder = False
         while color == 0:
-            if (coordinates[i]['type'] == "VTG"):
+            if (coordinates[i]['type'] == "speed"):
                 speed = coordinates[i]['speed'] 
                 color = coordinates[i]['color']
             i += 1
             if i >= len(coordinates):
-                print("[ERROR] There is no color information (VTG) in this data")
+                print("[ERROR] There is no color information (VTG || RMC) in this data")
                 return -1
 
         for coords in coordinates:
@@ -78,7 +78,7 @@ def get_placemark_content(coordinates, thresold):
                 except:
                     print("[ERROR] The coordinates can't be added in the KML file")
                     return -1
-            elif (coords['type'] == "VTG"):
+            elif (coords['type'] == "speed"):
                 if (coords['speed'] < speed - thresold or coords['speed'] > speed + thresold):
                     speed = coords['speed']
                     color = coords['color']
