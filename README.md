@@ -9,7 +9,7 @@ This repo is an .nmea to .kml converter, it can work with:
 - [ ] GSV 
 - [ ] GLL 
 
-This were a classes work in DUT GEII of Toulon (2019)
+This were a classes work in DUT GEII of Toulon (2021)
 
 ## Examples
 #### Google Earth:
