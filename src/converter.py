@@ -1,8 +1,27 @@
+########################################
+#
+# Author: Florian FloRide Reimat
+# Github: https://github.com/FloRide1/GPS-Python 
+# About: This file list all conversion function
+#
+#########################################
+
 import colorsys
 
+# Constants:
 KNOT_TO_KM_H = 1.852001
 
-def convert_frame_to_KML(frame):
+# Functions
+def convert_frame_to_KML(frame: dict):
+    """
+    Convert parsed frames into "KML" data type (for my program)
+
+        Parameters: 
+            frame (dict): The parse frame data in a dict (see parser.py for better understanding)
+
+        Returns: 
+           Returns an dict with all the KML data for UI
+    """
     try:
         typeOfFrame = frame['type']
         if (typeOfFrame == "GGA"):
@@ -23,7 +42,16 @@ def convert_frame_to_KML(frame):
 
 
 
-def convert_GGA_to_KML(gga_frame):
+def convert_GGA_to_KML(gga_frame: dict):
+    """
+    Convert GGA frame into "KML" data type
+
+        Parameters: 
+            frame (dict): The parse GGA frame in a dict (see parser.py for better understanding)
+
+        Returns: 
+           Returns an dict with all the KML data for UI
+    """
     try:
         if (gga_frame['type'] == "GGA"):
             longitude_GGA = str(gga_frame['longitude'])
@@ -45,7 +73,7 @@ def convert_GGA_to_KML(gga_frame):
             latitude  = (latitude_degree + latitude_minute  / 60) * coeff_latitude
 
             kml_frame = {
-                'type'      : "GGA",
+                'type'      : "GGA", # Maybe Edit GGA -> position for multiple handling
                 'longitude' : longitude,
                 'latitude'  : latitude,
                 'altitude'  : gga_frame['altitude'] + 15 # The + 15 is just for avoid hidden point in ground
@@ -60,6 +88,15 @@ def convert_GGA_to_KML(gga_frame):
         return -1
 
 def convert_VTG_to_KML(vtg_frame):
+    """
+    Convert VTG frame into "KML" data type
+
+        Parameters: 
+            frame (dict): The parse VTG frame in a dict (see parser.py for better understanding)
+
+        Returns: 
+           Returns an dict with all the KML data for UI
+    """
     try:
         if (vtg_frame['type'] == "VTG"):
             speed = vtg_frame['speed_km'] 
@@ -79,6 +116,15 @@ def convert_VTG_to_KML(vtg_frame):
         return -1
 
 def convert_RMC_to_KML(rmc_frame):
+    """
+    Convert RMC frame into "KML" data type
+
+        Parameters: 
+            frame (dict): The parse RMC frame in a dict (see parser.py for better understanding)
+
+        Returns: 
+           Returns an dict with all the KML data for UI
+    """
     try:
         if (rmc_frame['type'] == "RMC"):
             speed = rmc_frame['speed_knot']  * KNOT_TO_KM_H
@@ -98,14 +144,44 @@ def convert_RMC_to_KML(rmc_frame):
         return -1
 
 
-def speed_to_hue(speed, min_speed = 0, max_speed = 100, min_hue = 140, max_hue = 0):
-    # Conversion law [0km/h; 100km/h] -> [140;0] == [turquoise, red] (For HSV system)
+def speed_to_hue(speed: float, min_speed: float = 0, max_speed: float = 100, min_hue: int = 140, max_hue: int = 0) -> float:
+    """
+    Convert a speed to a Hue value (in HSV color format) for progressive color changements over speed
+    It just work like a linear function:
+    [min_speed km/h; max_speed km/h] -> [min_hue; max_hue] (For HSV system)  
+
+        Parameters:
+            speed       (float): The actual speed
+            min_speed   (float): The minimal speed expected
+            max_speed   (float): The maximal speed expected
+            min_hue     (int)  : The minimal speed hue value
+            max_hue     (int)  : The maximal speed hue value
+
+        Returns:
+            It return the hue value associate with that speed
+    """
     slope = (max_hue - min_hue) / (max_speed - min_speed)
     y_intercept = min_hue - (min_speed * slope) 
     hue = (slope * speed) + y_intercept 
     return hue
 
-def convert_color_KML (hue , sat = 100, value = 100):
+def convert_color_KML (hue: float, sat: float = 100, value: float = 100) -> str:
+    """
+    Convert a HSV value into the KML standard color format:
+        AABBGGRR:
+            - AA: Alpha value in (lowercase) Hex
+            - BB: Blue  value in (lowercase) Hex 
+            - GG: Green value in (lowercase) Hex 
+            - RR: Red   value in (lowercase) Hex 
+
+        Parameters:
+            hue   (float): The hue value of the color
+            sat   (float): The saturation value of the color
+            value (float): The value of the color (HSV)
+
+        Returns:
+            An string containing the color in the KML format
+    """
     hue /= 360
     sat /= 100
     value /= 100

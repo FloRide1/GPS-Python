@@ -1,4 +1,21 @@
-def parse_file(file_data):
+########################################
+#
+# Author: Florian FloRide Reimat
+# Github: https://github.com/FloRide1/GPS-Python 
+# About: This file list all parsing function for .nmea frame
+#
+#########################################
+
+def parse_file(file_data: str):
+    """
+    Split each line of .nmea file and parse all frame inside of them
+    
+        Parameters:
+            file_data (string): The all file content with all frame separated by line
+
+        Returns: 
+            An array of dict which contain all the parsed data
+    """
     try:
         data_list = file_data.split("\n") # Split Each Line of Data
         print("[OK] File is correctly parsed")
@@ -16,25 +33,46 @@ def parse_file(file_data):
         return -1
     
 
-def parse_frame(data, line):
+def parse_frame(data: str, line: int):
+    """
+    Select and redirect frame by the type (Ex: GGA, VTG, etc...) for parsing it.
+
+        Parameters:
+            data (string): The frame string unparsed
+            line    (int): The data line number 
+
+        Returns:
+            The data dict parse.
+    """
     try:
         parse_data = data.split(",")
         # Data Form: [type, X, X, ...]
+
         typeOfFrame = parse_data[0][3:] # Take only the X: $GPXXX
-        if (typeOfFrame == "GGA"):
+        if   (typeOfFrame == "GGA"):
             frame_data = parse_GGA_frame(parse_data)
         elif (typeOfFrame == "VTG"):
             frame_data = parse_VTG_frame(parse_data)
         elif (typeOfFrame == "RMC"):
             frame_data = parse_RMC_frame(parse_data)
         else:
+            # Type is unhandle
             frame_data = 0
         return frame_data
     except:
         print("[ERROR] Parsing had failed - line: " + str(line))
         return -1
 
-def parse_GGA_frame(parse_data):
+def parse_GGA_frame(parse_data: str):
+    """ 
+    Parse GGA frame and return a dict with all the data
+
+        Parameters:
+            parse_data (string): The frame in string
+
+        Returns:
+            The dict of the GGA frame
+    """
     try:
         typeOfFrame = parse_data[0][3:] 
         if typeOfFrame == "GGA":
@@ -60,7 +98,16 @@ def parse_GGA_frame(parse_data):
         print(parse_data)
         return -1
     
-def parse_VTG_frame(parse_data):
+def parse_VTG_frame(parse_data: str):
+    """ 
+    Parse VTG frame and return a dict with all the data
+
+        Parameters:
+            parse_data (string): The frame in string
+
+        Returns:
+            The dict of the VTG frame
+    """
     try:
         typeOfFrame = parse_data[0][3:]
         if typeOfFrame == "VTG":
@@ -76,7 +123,16 @@ def parse_VTG_frame(parse_data):
         print(parse_data)
         return -1
 
-def parse_RMC_frame(parse_data):
+def parse_RMC_frame(parse_data: str):
+    """ 
+    Parse RMC frame and return a dict with all the data
+
+        Parameters:
+            parse_data (string): The frame in string
+
+        Returns:
+            The dict of the RMC frame
+    """
     try:
         typeOfFrame = parse_data[0][3:]
         if typeOfFrame == "RMC":

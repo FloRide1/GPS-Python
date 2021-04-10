@@ -1,5 +1,25 @@
+########################################
+#
+# Author: Florian FloRide Reimat
+# Github: https://github.com/FloRide1/GPS-Python 
+# About: This file list all KML file generation functions
+# Notes: 
+#   Pour Mr.Arlotto, je sais que cette facon de faire est pas celle que vous imaginiez et que c'est "inutile"
+#   mais je trouve le code bcp plus serieux comme ca.
+#
+#########################################
 
-def get_kml_file_data(coordinates, thresold = 1):
+def get_kml_file_data(coordinates: list[dict], thresold: float = 1):
+    """
+    Take multiple coordinates and return an full string KML document
+
+        Parameters:
+            coordinates (list[dict]): An array containing all KML pre-process data (see converter.py for more info)
+            thresold         (float): The speed thresold for switching color
+
+        Returns:
+            Return an full string KML document
+    """
     try:
         xml_line = get_kml_xml_line()
         kml_placeholder = get_placeholder_kml() 
@@ -13,8 +33,6 @@ def get_kml_file_data(coordinates, thresold = 1):
         kml_final_line.append(name_line)
         kml_final_line.append(description_line)
         
-        # print("\n".join(kml_final_line))
-    
         placemark_speeds = get_placemark_content(coordinates, thresold)
         kml_final_line.append(placemark_speeds)
 
@@ -27,7 +45,18 @@ def get_kml_file_data(coordinates, thresold = 1):
         return -1
     
 
-def get_placemark_content(coordinates, thresold):
+def get_placemark_content(coordinates: list[dict], thresold: float = 1):
+    """
+    Give the placemark content string fill with coordinates and color
+
+        Parameters:
+            coordinates (list[dict]): An array containing all KML pre-process data (see converter.py for more info)
+            thresold         (float): The speed thresold for switching color
+
+        Returns:
+            return the string of placemark
+
+    """
     try:
         placemark_placeholder_lines = get_bracket_line("Placemark", 16) 
         lineString_line = get_bracket_line("LineString", 24)
@@ -48,7 +77,7 @@ def get_placemark_content(coordinates, thresold):
             i += 1
             if i >= len(coordinates):
                 print("[ERROR] There is no color information (VTG || RMC) in this data")
-                return -1
+                return -1 # Maybe add a default color system :/
 
         for coords in coordinates:
             if (coords['type'] == "GGA"):
@@ -97,14 +126,25 @@ def get_placemark_content(coordinates, thresold):
         print("[ERROR] The PlaceHolder's KML line can't be generated")
 
 
-def get_kml_xml_line(version = 1.0, encoding = "UTF-8"):
+def get_kml_xml_line(version: float = 1.0, encoding: str = "UTF-8") -> str:
+    """
+        Return the first string of the KML document (<?xml .... ?>
+    """
     line = "<?xml version=\"{vrsn:.1f}\" encoding=\"{encd}\"?>".format(
         vrsn = version,
         encd = encoding
     )
     return line
 
-def get_placeholder_kml(xmlns = "http://earth.google.com/kml/2.1",indent_lvl = 8):
+def get_placeholder_kml(xmlns: str = "http://earth.google.com/kml/2.1",indent_lvl: int = 8) -> dict:
+    """
+        Return a dict containing the KML placeholder
+            Format:
+                {
+                    begin: the begin line of the placeholder
+                    end: the end line of the placeholder
+                }
+    """
     begin = "<kml xmlns=\"{xmlns_place}\">\n{indent}<Document>".format(
         indent = indent_lvl * " ",
         xmlns_place = xmlns
@@ -116,16 +156,25 @@ def get_placeholder_kml(xmlns = "http://earth.google.com/kml/2.1",indent_lvl = 8
     } 
     return placeholder
 
-def get_name_line(name = "Paths", indent_lvl = 16):
+def get_name_line(name = "Paths", indent_lvl = 16) -> str:
+    """
+    Return the string name line of the KML document
+    """
     line = get_unique_line("name",name, indent_lvl)
     return line
 
 def get_description_line(description = "My Journey", indent_lvl = 16):
+    """
+    Return the string description line of the KML document
+    """
     line = get_unique_line("description", description, indent_lvl)
     return line
 
 def get_style_poly_line(name_id = "yellowLineGreenPoly", line_color = 2130771967, line_width = 4, 
     poly_color = 2130771967, indent_base = 16, indent_lvl = 8):
+    """
+    This function is deprecated. This was use for Exercice 1
+    """
     b_Style_line = "{indent}<Style id=\"{n_id}\">".format(indent = indent_base * " ", n_id = name_id)
     e_Style_line = "{indent}</Style>".format(indent = indent_base * " ")
 
@@ -151,7 +200,11 @@ def get_style_poly_line(name_id = "yellowLineGreenPoly", line_color = 2130771967
 
     return global_line
 
-def get_style_line(line_color , line_width = 8, indent_base = 24, indent_lvl = 8):
+def get_style_line(line_color , line_width = 8, indent_base = 24, indent_lvl = 8) -> str:
+    """
+    This function return the string style of the KML document
+
+    """
     Style_line = get_bracket_line("Style", indent_base)
 
     Line_line = get_bracket_line("LineStyle", indent_base + indent_lvl)
@@ -171,11 +224,23 @@ def get_style_line(line_color , line_width = 8, indent_base = 24, indent_lvl = 8
 
     return global_line
 
-def get_unique_line(name, value, indent):
+def get_unique_line(name, value, indent) -> str:
+    """
+    Return a string containing:
+        <name> value </name>
+    """
     line = "{indent_b}<{nme}>{val}</{nme}>".format(indent_b = indent * " ", nme = name, val = value)
     return line
 
-def get_bracket_line(name, indent):
+def get_bracket_line(name, indent) -> dict:
+    """
+    Return a dict containing the begin and the end of a bracket style command:
+        Format:
+            {
+                begin: "<name>"
+                end: "</name>"
+            }
+    """
     begin = "{indent_b}<{nme}>".format(indent_b=indent * " ", nme=name)
     end = "{indent_b}</{nme}>".format(indent_b=indent * " ", nme=name)
     line = {

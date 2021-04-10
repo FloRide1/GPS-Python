@@ -1,3 +1,11 @@
+########################################
+#
+# Author: Florian FloRide Reimat
+# Github: https://github.com/FloRide1/GPS-Python 
+# About: This file is the main file of the project
+#
+#########################################
+
 from parser import *
 from converter import *
 from kml import * 
@@ -8,6 +16,9 @@ OUTPUT_PATH = "./output/"
 OUTPUT_FILE = "kml_output.kml"
 
 def init():
+    """
+    Init of the Main Program
+    """
     print("[OK] Init Begin")
     print("[OK] File Path: " + DATA_PATH)
     print("[OK] File Name: " + DATA_FILE)
@@ -16,6 +27,9 @@ def init():
     print("[OK] Init End")
 
 def main():
+    """
+    Main Loop of Program
+    """
     print("[OK] Main Begin")
     try: 
         file_object = open(DATA_PATH + DATA_FILE, 'r')
