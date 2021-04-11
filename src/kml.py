@@ -68,6 +68,7 @@ def get_placemark_content(coordinates: list[dict], thresold: float = 1):
         
         i = 0
         color = 0
+        speed = 0
         last_line = -1
         inPlaceHolder = False
         while color == 0:
@@ -76,11 +77,11 @@ def get_placemark_content(coordinates: list[dict], thresold: float = 1):
                 color = coordinates[i]['color']
             i += 1
             if i >= len(coordinates):
-                print("[ERROR] There is no color information (VTG || RMC) in this data")
+                print("[ERROR] There is no color information (VTG or RMC) in this data")
                 return -1 # Maybe add a default color system :/
 
         for coords in coordinates:
-            if (coords['type'] == "GGA"):
+            if (coords['type'] == "position"):
                 if (not(inPlaceHolder)):
                     inPlaceHolder = True
                     kml_line.append(placemark_placeholder_lines['begin'])

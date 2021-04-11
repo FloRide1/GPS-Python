@@ -6,10 +6,13 @@
 #
 #########################################
 
+import math
 import colorsys
 
 # Constants:
 KNOT_TO_KM_H = 1.852001
+RADIUS_OF_EARTH_IN_METERS = 6371009
+DEGREE_TO_RADIANS = math.pi / 180
 
 # Functions
 def convert_frame_to_KML(frame: dict):
@@ -37,7 +40,7 @@ def convert_frame_to_KML(frame: dict):
             print("[ERROR] This frame format isn't handle: " + typeOfFrame)
             return -2
     except:
-        print("[ERROR] An error occured during conversion in KML format")
+        print("[ERROR] An error occurred during conversion in KML format")
         return -1
 
 
@@ -73,7 +76,7 @@ def convert_GGA_to_KML(gga_frame: dict):
             latitude  = (latitude_degree + latitude_minute  / 60) * coeff_latitude
 
             kml_frame = {
-                'type'      : "GGA", # Maybe Edit GGA -> position for multiple handling
+                'type'      : "position", 
                 'longitude' : longitude,
                 'latitude'  : latitude,
                 'altitude'  : gga_frame['altitude'] + 15 # The + 15 is just for avoid hidden point in ground
@@ -84,7 +87,7 @@ def convert_GGA_to_KML(gga_frame: dict):
             print("[ERROR] This is not an GGA frame")
             return -1
     except:
-        print("[ERROR] The conversion betweem this GGA frame and KML is Impossible")
+        print("[ERROR] The conversion between this GGA frame and KML is Impossible")
         return -1
 
 def convert_VTG_to_KML(vtg_frame):
@@ -112,7 +115,7 @@ def convert_VTG_to_KML(vtg_frame):
             print("[ERROR] This is not an VTG frame")
             return -1
     except:
-        print("[ERROR] The conversion betweem this VTG frame and KML is Impossible")
+        print("[ERROR] The conversion between this VTG frame and KML is Impossible")
         return -1
 
 def convert_RMC_to_KML(rmc_frame):
@@ -140,7 +143,7 @@ def convert_RMC_to_KML(rmc_frame):
             print("[ERROR] This is not an RMC frame")
             return -1
     except:
-        print("[ERROR] The conversion betweem this RMC frame and KML is Impossible")
+        print("[ERROR] The conversion between this RMC frame and KML is Impossible")
         return -1
 
 
@@ -192,4 +195,26 @@ def convert_color_KML (hue: float, sat: float = 100, value: float = 100) -> str:
     kml_color = "ff{b:02x}{g:02x}{r:02x}".format(b=blue, g=green, r=red)
     return kml_color 
 
+def calculate_dist_for_polar_coordinates(latitude_a: float, longitude_a: float, latitude_b: float, longitude_b: float) -> float:
+    """
+    Calculate and return the distance between 2 geographic coordinate points using 
+    Harvesine Formula (en.wikipedia.org/wiki/Haversine_formula)
+    
+        Parameters:
+            latitude_a  (float): The latitude  of point A in degree 
+            longitude_a (float): The longitude of point A in degree 
+            latitude_b  (float): The latitude  of point B in degree 
+            longitude_b (float): The longitude of point B in degree 
+
+        Returns:
+        The distance between point A and B in meters (m)
+    """
+    lat_a = latitude_a  * DEGREE_TO_RADIANS
+    lon_a = longitude_a * DEGREE_TO_RADIANS
+    lat_b = latitude_b  * DEGREE_TO_RADIANS
+    lon_b = longitude_b * DEGREE_TO_RADIANS
+    
+    a = math.sin((lat_b - lat_a) / 2) ** 2 + math.cos(lat_a) * math.cos(lat_b) * math.sin((lon_b - lon_a) / 2) ** 2
+    distance = 2 * RADIUS_OF_EARTH_IN_METERS * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    return distance
 

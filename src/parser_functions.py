@@ -63,12 +63,12 @@ def parse_frame(data: str, line: int):
         print("[ERROR] Parsing had failed - line: " + str(line))
         return -1
 
-def parse_GGA_frame(parse_data: str):
+def parse_GGA_frame(parse_data: list[str]):
     """ 
     Parse GGA frame and return a dict with all the data
 
         Parameters:
-            parse_data (string): The frame in string
+            parse_data (list[string]): The frame array with all data in string
 
         Returns:
             The dict of the GGA frame
@@ -98,12 +98,12 @@ def parse_GGA_frame(parse_data: str):
         print(parse_data)
         return -1
     
-def parse_VTG_frame(parse_data: str):
+def parse_VTG_frame(parse_data: list[str]):
     """ 
     Parse VTG frame and return a dict with all the data
 
         Parameters:
-            parse_data (string): The frame in string
+            parse_data (list[string]): The frame array with all data in string
 
         Returns:
             The dict of the VTG frame
@@ -123,12 +123,12 @@ def parse_VTG_frame(parse_data: str):
         print(parse_data)
         return -1
 
-def parse_RMC_frame(parse_data: str):
+def parse_RMC_frame(parse_data: list[str]):
     """ 
     Parse RMC frame and return a dict with all the data
 
         Parameters:
-            parse_data (string): The frame in string
+            parse_data (list[string]): The frame array with all data in string
 
         Returns:
             The dict of the RMC frame
