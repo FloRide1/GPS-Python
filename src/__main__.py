@@ -59,7 +59,7 @@ def main():
                 kml_data.append(kml_d) 
         print("[OK] Conversion in KML Success")
     except:
-        print("[ERROR] Convertion in KML failed")
+        print("[ERROR] Conversion in KML failed")
         return -1
     try:
         kml_file = kml.get_kml_file_data(kml_data) 
