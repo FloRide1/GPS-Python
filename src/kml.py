@@ -3,9 +3,7 @@
 # Author: Florian FloRide Reimat
 # Github: https://github.com/FloRide1/GPS-Python 
 # About: This file list all KML file generation functions
-# Notes: 
-#   Pour Mr.Arlotto, je sais que cette facon de faire est pas celle que vous imaginiez et que c'est "inutile"
-#   mais je trouve le code bcp plus serieux comme ca.
+# Licence: GNU 3
 #
 #########################################
 

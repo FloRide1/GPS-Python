@@ -3,6 +3,7 @@
 # Author: Florian FloRide Reimat
 # Github: https://github.com/FloRide1/GPS-Python 
 # About: This file list all parsing function for .nmea frame
+# Licence: GNU 3
 #
 #########################################
 

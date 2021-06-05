@@ -3,6 +3,7 @@
 # Author: Florian FloRide Reimat
 # Github: https://github.com/FloRide1/GPS-Python 
 # About: This file list all conversion function
+# Licence: GNU 3
 #
 #########################################
 

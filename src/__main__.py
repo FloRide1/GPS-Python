@@ -3,7 +3,7 @@
 # Author: Florian FloRide Reimat
 # Github: https://github.com/FloRide1/GPS-Python 
 # About: This file is the main file of the project
-#
+# Licence: GNU 3
 #########################################
 
 import math
