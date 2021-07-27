@@ -19,7 +19,7 @@ DATA_FILE = "balade_gps.txt"		# Your Input Filename
 OUTPUT_PATH = "./output/"		# Your Output Folder relative to were you launch the program
 OUTPUT_FILE = "kml_output.kml"		# Your Output Filename
 ```
-An then simply launch the program
+An then simply launch the program (Warning launch the program according to the relative path you've setup)
 ```sh
 python ./src/__main__.py
 ```
