@@ -149,3 +149,31 @@ def parse_RMC_frame(parse_data: list[str]):
         print(parse_data)
         return -1
 
+def parse_ZDA_frame(parse_data: list[str]):
+    """ 
+    Parse ZDA frame and return a dict with all the data
+
+        Parameters:
+            parse_data (list[string]): The frame array with all data in string
+
+        Returns:
+            The dict of the ZDA frame
+    """
+    try:
+        typeOfFrame = parse_data[0][3:]
+        if typeOfFrame == "ZDA":
+           frame_data = {
+                'type' : typeOfFrame,
+                'utc' : parse_data[1],
+                'day' : int(parse_data[2]),
+                'month' : int (parse_data[3]),
+                'year' : int(parse_data[4]),
+            }
+           return frame_data
+        else:
+            print("[ERROR] This frame is not an ZDA frame")
+    except:
+        print("[ERROR] This ZDA frame is not correctly formated: ")
+        print(parse_data)
+        return -1
+
