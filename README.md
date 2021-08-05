@@ -10,6 +10,7 @@ This repo is an .nmea to .kml converter, it can work with:
 - [ ] GLL 
 
 This were a classes work in DUT GEII of Toulon (2021)
+Certain type of format don't worl very well
 
 ## How to Use It:
 You just need to setup these variable (in \_\_main\_\_.py)
