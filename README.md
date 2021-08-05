@@ -6,7 +6,7 @@ This repo is an .nmea to .kml converter, it can work with:
 - [x] VTC
 - [x] RMC
 - [x] ZDA
-- [ ] GSV 
+- [x] GSV 
 - [ ] GLL 
 
 This were a classes work in DUT GEII of Toulon (2021)
