@@ -58,6 +58,8 @@ def parse_frame(data: str, line: int):
             frame_data = parse_RMC_frame(parse_data)
         elif (typeOfFrame == "ZDA")
             frame_data = parse_ZDA_frame(parse_data)
+        elif (typeOfFrame == "GSV")
+            frame_data = parse_GSV_frame(parse_data)
         else:
             # Type is unhandle
             frame_data = 0
@@ -179,3 +181,26 @@ def parse_ZDA_frame(parse_data: list[str]):
         print(parse_data)
         return -1
 
+def parse_GSV_frame(parse_data: list[str]):
+    """ 
+    Parse GSV frame and return a dict with all the data
+
+        Parameters:
+            parse_data (list[string]): The frame array with all data in string
+
+        Returns:
+            The dict of the GSV frame
+    """
+    try:
+        typeOfFrame = parse_data[0][3:]
+        if typeOfFrame == "GSV":
+           frame_data = {
+                'type' : typeOfFrame,
+            }
+           return frame_data
+        else:
+            print("[ERROR] This frame is not an GSV frame")
+    except:
+        print("[ERROR] This GSV frame is not correctly formated: ")
+        print(parse_data)
+        return -1
