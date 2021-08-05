@@ -5,7 +5,7 @@ This repo is an .nmea to .kml converter, it can work with:
 - [x] GGA 
 - [x] VTC
 - [x] RMC
-- [ ] ZDA
+- [x] ZDA
 - [ ] GSV 
 - [ ] GLL 
 

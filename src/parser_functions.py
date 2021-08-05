@@ -56,6 +56,8 @@ def parse_frame(data: str, line: int):
             frame_data = parse_VTG_frame(parse_data)
         elif (typeOfFrame == "RMC"):
             frame_data = parse_RMC_frame(parse_data)
+        elif (typeOfFrame == "ZDA")
+            frame_data = parse_ZDA_frame(parse_data)
         else:
             # Type is unhandle
             frame_data = 0
@@ -78,7 +80,7 @@ def parse_GGA_frame(parse_data: list[str]):
         typeOfFrame = parse_data[0][3:] 
         if typeOfFrame == "GGA":
             frame_data = {
-                'type'          : parse_data[0][3:],
+                'type'          : typeOfFrame,
                 'time'          : float(parse_data[1]),
                 'latitude'      : float(parse_data[2]),
                 'north_south'   : parse_data[3],
